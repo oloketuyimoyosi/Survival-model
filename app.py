@@ -10,15 +10,7 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 # Join the path to the model file
 model_path = os.path.join(current_dir, "titanic_xgboost_model.json")
 
-try:
-    if not os.path.exists(model_path):
-        st.error(f"File not found at: {model_path}")
-        # Debugging: Show what files ARE there
-        st.write("Files in current directory:", os.listdir(current_dir))
-    else:
-        model.load_model(model_path)
-except Exception as e:
-    st.error(f"Error loading model: {e}")
+
 
 def preprocess_data(df):
     """
