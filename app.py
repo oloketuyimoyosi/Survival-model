@@ -2,13 +2,23 @@ import streamlit as st
 import pandas as pd
 import xgboost as xgb
 from sklearn.preprocessing import LabelEncoder
+import os
 
 # 1. Load the trained model
 model = xgb.XGBClassifier()
+current_dir = os.path.dirname(os.path.abspath(__file__))
+# Join the path to the model file
+model_path = os.path.join(current_dir, "titanic_xgboost_model.json")
+
 try:
-    model.load_model("titanic_xgboost_model.json")
-except:
-    st.error("Model file 'titanic_xgboost_model.json' not found. Please run the Week 7 training script first.")
+    if not os.path.exists(model_path):
+        st.error(f"File not found at: {model_path}")
+        # Debugging: Show what files ARE there
+        st.write("Files in current directory:", os.listdir(current_dir))
+    else:
+        model.load_model(model_path)
+except Exception as e:
+    st.error(f"Error loading model: {e}")
 
 def preprocess_data(df):
     """
